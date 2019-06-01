@@ -28,8 +28,8 @@ class DateTime extends React.Component {
 }
 
 DateTime.propTypes = {
-  input: PropTypes.element,
-  onClose: PropTypes.bool,
+  input: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 DateTime.defaultProps = {

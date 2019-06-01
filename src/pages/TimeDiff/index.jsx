@@ -1,7 +1,5 @@
 import React from 'react';
-// import classnames from 'classnames';
-import moment from 'moment';
-import timeDiff from '../../helpers/timeDiff';
+import { getTimeDiff, getUTCDate } from '../../helpers/time';
 import Input from '../../components/shared/input';
 import DateTime from '../../components/shared/datetime';
 import styles from './index.module.css';
@@ -11,7 +9,7 @@ export default class TimeDiff extends React.Component {
     super(props);
 
     this.state = {
-      dateTime: moment.utc(),
+      dateTime: getUTCDate(),
       isPickerOpened: false,
     };
 
@@ -20,7 +18,7 @@ export default class TimeDiff extends React.Component {
 
   get difference() {
     const { dateTime } = this.state;
-    const difference = timeDiff(moment.utc(), dateTime);
+    const difference = getTimeDiff(getUTCDate(), dateTime);
 
     if (!difference) {
       return null;
@@ -36,7 +34,7 @@ export default class TimeDiff extends React.Component {
   }
 
   handleChange(dateTime) {
-    this.setState({ dateTime });
+    this.setState({ dateTime: dateTime.toDate() });
   }
 
   pickerInput() {
@@ -46,7 +44,7 @@ export default class TimeDiff extends React.Component {
       <Input
         readOnly
         onClick={() => this.setState({ isPickerOpened: true })}
-        value={dateTime.toDate().toLocaleString()}
+        value={dateTime.toLocaleString()}
       />
     );
   }
@@ -65,7 +63,7 @@ export default class TimeDiff extends React.Component {
             <div className={styles.pickerInput}>
               <DateTime
                 input={this.pickerInput}
-                value={dateTime.toDate()}
+                value={dateTime}
                 onClose={() => this.setState({ isPickerOpened: false })}
                 onChange={e => this.handleChange(e)}
                 open={isPickerOpened}
